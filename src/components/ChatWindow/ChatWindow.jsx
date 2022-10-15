@@ -1,8 +1,8 @@
 import './ChatWindow.css';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-import MessageItem from '../MessageItem/teste';
+import MessageItem from '../MessageItem/MessageItem';
 
 import EmojiPicker from 'emoji-picker-react';
 
@@ -14,13 +14,43 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 
-export default () => {
+export default ({ user }) => {
+
+    const body = useRef();
 
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [text, setText] = useState('');
     // State para Audio - Como fazer??
     const [listening, setLintening] = useState(false);
-    const [list, setList] = useState([]);
+    const [list, setList] = useState([
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+        { author: 123, body: 'bla bla bla bla' },
+        { author: 123, body: 'bla bla bla' },
+        { author: 1234, body: 'bla bla' },
+    ]);
+
+    useEffect(() => {
+        if (body.current.scrollHeight > body.current.offsetHeight) {
+            body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
+        }
+    }, [list])
 
     const handleEmojiClick = (e, emojiObject) => {
         setText(text + emojiObject.emoji)
@@ -59,11 +89,12 @@ export default () => {
                     </div>
                 </div>
             </div>
-            <div className="chatWindow--body">
+            <div ref={body} className="chatWindow--body">
                 {list.map((item, key) => (
                     <MessageItem
                         key={key}
-                        data={item}>
+                        data={item}
+                        user={user}>
                     </MessageItem>
                 ))}
             </div>
